@@ -1,0 +1,502 @@
+" ================= Mac OS X Usage =================:
+" Pretty much plug and play with MacVim
+" ==================================================
+
+" ========================== Mario.vim =============================
+" Plug 'rbtnn/game_engine.vim'
+" Plug 'rbtnn/mario.vim'
+" ==================================================================
+
+let s:homeFolder = $HOME
+let s:vimConfigDir = s:homeFolder . '/.vim'
+let s:vimPluginConfigDir = s:vimConfigDir . '/pluginRc'
+
+" ========================== Jordwalke's fork of One ===========================
+Plug 'jordwalke/vim-one'
+if !exists('g:one_allow_italics')
+  " Italics don't typically render well in terminals
+  let g:one_allow_italics = has('gui_running')
+endif
+" ==============================================================================
+
+
+" ========================== Some colors ===========================
+Plug 'jordwalke/VimCleanColors'
+" ==============================================================================
+
+" ======================  Find And Replace =========================
+Plug 'brooth/far.vim'
+" ==============================================================================
+
+" Interesting but buggy
+" Plug 'kana/vim-ku'
+
+" =========================== Bootstrap for Vim ================================
+Plug 'tpope/vim-sensible'
+" ==============================================================================
+
+" ====================== Way better incremental search =========================
+" Unforunately, this plugin adds latency while typing in the search box!
+" (When typing the quote character).
+Plug 'haya14busa/incsearch.vim'
+
+" Inc Search:
+" This has to come after the NeoBundleCheck otherwise we get a bunch
+" of errors on the first run of Vim.
+" TODO: This should go in its own `Rc` file, and then all
+" the "plugin rc files" should be sourced *after* the NeoBundleCheck.
+
+" " Question mark searches but keeps cursor in same position
+map /  <Plug>(incsearch-forward)
+map ? <Plug>(incsearch-stay)
+" "IncSearchNoreMap "+gP <C-r>+
+" autocmd VimEnter * exec ":IncSearchNoreMap \"+gP <C-r>+"
+"
+let g:incsearch#emacs_like_keymap = 1
+" From the example:
+augroup incsearch-keymap
+    autocmd!
+    autocmd VimEnter * call s:incsearch_keymap()
+augroup END
+function! s:incsearch_keymap()
+  if exists('g:loaded_incsearch')
+    IncSearchNoreMap <c-l> <Esc>
+    IncSearchNoreMap <c-l> <C-c>
+  endif
+endfunction
+
+
+
+" ==============================================================================
+
+" ======================= AutoMakeDirectory if needed ==========================
+Plug 'jordwalke/VimAutoMakeDirectory'
+" ==============================================================================
+
+
+" =================== Impressive window switching plugin =======================
+" Plug 't9md/vim-choosewin'
+" nmap  <D-t>  <Plug>(choosewin)
+" imap  <D-t>  <Esc>:ChooseWin<Cr>
+" let g:choosewin_overlay_enable = 1
+" ==============================================================================
+
+
+" ================== Allow plugins to tap into repeating =======================
+Plug 'tpope/vim-repeat'
+" ==============================================================================
+
+" ==============================================================================
+Plug 'tpope/vim-fugitive'
+Plug 'gregsexton/gitv'
+"Neither of these two commands seem to do what I want
+let g:Gitv_OpenHorizontal = 0
+let g:Gitv_WipeAllOnClose = 1
+let g:Gitv_DoNotMapCtrlKey = 1
+" ==============================================================================
+
+" ==============================================================================
+" Plug 'jreybert/vimagit'
+" ==============================================================================
+
+" Windows:
+" Need dependent package to be installed.
+" You must copy the dlls to the gvim directory usually C:\Program Files (x86)\vim\vim73
+"
+" Bundle "xolox/vim-misc"
+" Bundle "xolox/vim-shell"
+" Trouble: can_use_dll is returning false :/ Version number !== .5
+
+" ====================== Vim Surround ==========================================
+Plug 'tpope/vim-surround'
+" ==============================================================================
+
+
+" =================== TODO, Check Out:==========================================
+" bootleq/vim-gitdiffall
+" ==============================================================================
+
+
+
+" " ========================== Unite.vim uses ====================================
+" Disabling Unite for now since it's unclear how to configure it to work with
+" VimBox's paradigm.
+" Plug 'Shougo/vimproc', {
+"       \ 'build' : {
+"       \     'windows' : 'make -f make_mingw32.mak',
+"       \     'cygwin' : 'make -f make_cygwin.mak',
+"       \     'mac' : 'make -f make_mac.mak',
+"       \     'unix' : 'make -f make_unix.mak',
+"       \    },
+"       \ }
+"
+" Plug 'Shougo/unite.vim'
+" source ~/.vim/pluginRc/uniteVimRc
+
+" =============================== Thumbnail ====================================
+" Plug 'itchyny/thumbnail.vim'
+" ==============================================================================
+
+" =============================== Better Markdown ==============================
+Plug 'tpope/vim-markdown'
+" ==============================================================================
+
+" =============================== Session = ====================================
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
+" let g:session_autosave_periodic = 0  "Every three minutes + on close seems fine.
+" But saving resets window dims!
+let g:session_autosave = 'yes'       "Auto-save on close
+let g:session_autoload = 'no'
+" let g:session_menu=1
+" We have our own sessions.vim file that does some interesting stuff.
+
+" Make sure to save sessions outside of your dotfiles in case you publish your
+" dotfiles to github etc.
+" The Session Directory
+let s:homeFolder = $HOME
+if (exists('g:vimBoxSessionDir'))
+  let g:session_directory=g:vimBoxSessionDir
+else
+  let g:session_directory=s:homeFolder . '/vim_sessions'
+endif
+" ==============================================================================
+
+" My custom session management GUI tools (in menu bar) Based on one of the
+" other session managers.
+set runtimepath+=~/.vim/localBundle/sessions
+set runtimepath+=~/.vim/localBundle/wowcamldebug
+
+" ================================ VimJSDocSnippets ============================
+Plug 'jordwalke/VimJSDocSnippets'
+if has('gui_win32')
+  let g:JSDocSnippetsMapping='<S-M-i>'
+else
+  " "Insert" snippet.
+  let g:JSDocSnippetsMapping='<D-I>'
+endif
+
+" ==============================================================================
+
+
+" ==================== Best Pair Tool Ever =====================================
+Plug 'MartinLafreniere/vim-PairTools'
+set runtimepath+=~/.vim/pluginRc/pairTools
+" ==============================================================================
+
+
+" ========================== Cocoa Vim =========================================
+" Plug 'msanders/cocoa.vim'
+" ==============================================================================
+
+
+Plug 'AndrewRadev/splitjoin.vim'
+
+
+" =================================== LastTab  =================================
+" See .keysVimRc
+Plug 'jordwalke/VimLastTab'
+" ==============================================================================
+
+
+" =================================== Closer  ==================================
+" Go to Left when closing like everything else in the world
+Plug 'jordwalke/VimCloser'
+" ==============================================================================
+
+
+" TODO: Look into the following
+" Plug 'xolox/vim-colorscheme-switcher'
+
+" =============================== SmartGUITabs =================================
+Plug 'jordwalke/MacVimSmartGUITabs'
+" Make sure to have `set guioptions+=e` in your `.gvimrc`.
+map <D-Cr> :SmartGUITabsToggleFullScreen<CR>
+imap <D-Cr> <Esc>:SmartGUITabsToggleFullScreen<CR>
+nmap <D-Cr> <Esc>:SmartGUITabsToggleFullScreen<CR>
+" ==============================================================================
+
+
+" =================================== NERDTree =================================
+" Q : How can I open a NERDTree automatically when vim starts up if no files
+" were specified?  A : NerdTreeTabs handles this
+Plug 'scrooloose/nerdtree'
+source ~/.vim/pluginRc/nerdTreeVimRc
+" Also see ~/.vim/nerdtree_plugin/myMappings.vim (NERDTree requires mappings
+" exist there)
+" ==============================================================================
+
+
+" ============================= NERDTreeSideBar ================================
+" Plug 'jistr/vim-nerdtree-tabs'
+" source ~/.vim/pluginRc/nerdTreeTabsVimRc
+" ==============================================================================
+
+
+" ============================ OCaml ===========================================
+" Bundles installed with OPAM:
+" ==============================================================================
+"Merlin AutoComplete:
+" Hacked ACP to support Reason and OCaml.
+" TODO: Can someone support YCM and other popular completion engines?
+
+" ============================= VimReson =======================================
+" Plug 'reasonml/vim-reason-loader'
+Plug 'chenglou/vim-reason'
+source ~/.vim/pluginRc/vimReasonVimRc
+let g:merlin_split_method = "vertical"
+let g:merlin_completion_dwim=0
+" ==============================================================================
+
+
+" ==============================================================================
+
+" =================================== OCP-indent ================================
+" This is a better version than what comes directly out of OPAM (it does not
+" destroy undo/redo).
+Plug 'def-lkb/ocp-indent-vim'
+" ==============================================================================
+
+
+
+" ======================= Toggle quickfix/location ============================
+" See .keysVimRc
+let g:toggly_copen_command="bo copen 15"
+let g:toggly_lopen_command="lopen 10"
+source ~/.vim/pluginRc/toggly/togglyVimRc
+" =============================================================================
+
+" ======================= Easy Grep ===========================================
+Plug 'yegappan/grep'
+let Grep_Skip_Files = '*.byte *.depends *.cmi *.cmx *.orig *.back *.cmo *.o *~'
+let Grep_Skip_Dirs = 'RCS CVS SCCS _build .git'
+" =============================================================================
+
+
+" ======================= Custom Resizing for SplitBalancer ===================
+" GoldenRatio has some issues with session restore and prevents opening of many windows.
+Plug 'jordwalke/VimSplitBalancer'
+" =============================================================================
+" VimSplitBalancer takes care of it.
+set noequalalways
+
+" =================== Web Dev Icons ===========================================
+" Plug 'ryanoasis/vim-devicons'
+" let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+" let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
+" let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
+" let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ''
+" let g:DevIconsDefaultFolderOpenSymbol = ''
+" let g:WebDevIconsNerdTreeGitPluginForceVAlign = 0
+" Use the nerdtree arrows instead
+" let g:NERDTreeDirArrowExpandable = ' '
+" let g:NERDTreeDirArrowCollapsible = ' '
+" =============================================================================
+
+" ======================= View Key Mappings ====================================
+" Needs some bug fixes
+" Plug 'robcsi/viewmaps.vim'
+
+" ======================= A lighterweight Powerline ============================
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+execute 'source '. s:vimPluginConfigDir . '/vimAirlineVimRc'
+if has("gui_macvim") || has("gui_vimr")
+  autocmd VimEnter * set guioptions+=e
+endif
+
+" ==============================================================================
+
+
+" ==================================== Syntastic ================================
+Plug 'scrooloose/syntastic'
+" TODO: Disable signs in merlin/syntastic, and only use the VimHint strategy of
+" underlining *just* the region of error.
+let g:syntastic_enable_signs=0
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_loc_list_height=15
+" This doesn't work:'
+let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
+let g:airline#extensions#quickfix#location_text = 'Diagnostics'
+
+" Flow checking is too slow. Makes Vim lock up (did I not configure this
+" correctly?)
+" let g:syntastic_javascript_checkers=['flow']
+" let g:syntastic_warning_symbol=""
+" let g:syntastic_error_symbol=""
+" highlight link SyntasticErrorLine Spellbad
+" highlight link SyntasticWarningLine Spellbad
+" highlight link SyntasticStyleErrorLine Spellbad
+" highlight link SyntasticStyleWarningLine Spellbad
+" For OCaml (which uses syntastic + merlin) always show the sign gutter
+" otherwise it's jarring when it appears.
+" autocmd FileType ocaml sign define dummy
+" autocmd FileType ocaml execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
+" ==============================================================================
+let g:airline#extensions#whitespace#trailing_format = ' '
+
+
+
+
+" ==================================== TaskList ================================
+" Plug 'vim-scripts/TaskList.vim'
+" ==============================================================================
+
+
+
+" ================================== Expand-Region =================================
+Plug 'terryma/vim-expand-region'
+
+" Override the default expand region to avoid paragraphs and lines, and also add
+" "around" braces/brackets/parens/quotes. Remove "W" word - it extends beyond
+" paren boundaries in an unbalanced way.
+let g:expand_region_text_objects = {
+      \ 'iw'  :0,
+      \ 'i"'  :0,
+      \ 'i''' :0,
+      \ 'i]'  :1,
+      \ 'ib'  :1,
+      \ 'iB'  :1,
+      \ 'a]' :1,
+      \ 'ab' :1,
+      \ 'aB' :1,
+      \ 'a"'  :0,
+      \ 'a''' :0
+      \ }
+" ==============================================================================
+
+
+
+
+" ================================== Smooth-Scroll =================================
+Plug 'terryma/vim-smooth-scroll'
+"Normal mode
+noremap <silent> <c-u> :call smooth_scroll#up(40, 20, 6)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(40, 20, 6)<CR>
+
+" smooth_scroll is broken in visual mode currently - unmap
+vnoremap <silent> <c-u> <c-u>
+vnoremap <silent> <c-d> <c-d>
+" ==============================================================================
+
+
+
+" ================================= Flatlandia ==================================
+Plug 'jordwalke/flatlandia'
+" ==============================================================================
+
+
+" ================================= Solarized ==================================
+Plug 'altercation/vim-colors-solarized'
+"default value is 1
+let g:solarized_underline=0
+"default value is 16
+let g:solarized_termcolors=256
+"default value is normal
+let g:solarized_contrast="high"
+"default value is normal
+let g:solarized_visibility="high"
+" ==============================================================================
+
+
+" ================================= Ctrl-p =====================================
+" See ~/.gvimrc as well
+" Using the new official ctrlp (switched project maintainers)
+Plug 'ctrlpvim/ctrlp.vim'
+source ~/.vim/pluginRc/ctrlPVimRc
+" ==============================================================================
+
+" ================================== Headlights ================================
+" Shows all plugin options as menu items like textmate bundles
+" Plug 'mbadran/headlights'
+"let g:headlights_use_plugin_menu = 1;
+" let g:headlights_smart_menus = 1
+" ==============================================================================
+
+
+" ============================= ACP Forked =========================
+" Check out snippets in ~/.vim/personalSnippets/
+" Plug 'jordwalke/AutoComplPop'
+let g:acp_ignorecaseOption = 1
+
+Plug 'lifepillar/vim-mucomplete'
+source ~/.vim/pluginRc/mucompleteVimRc
+
+" ==============================================================================
+
+" ============================= UltiSnips ======================================
+"See corresponding entries in `.keysVimRc`.
+" This branch fixes performance of UltiSnips_Manager.snippets_in_current_scope but it won't install with vim-plug!
+" Plug 'SirVer/ultisnips', { 'commit': '6b076183aa4bb8e3e1e7b07b8bee3d899560b445', 'branch': 'optimize-snippets-in-current-scope' }
+Plug 'SirVer/ultisnips'
+let g:UltiSnipsSnippetsDir="~/.vim"
+let g:UltiSnipsSnippetDirectories=["myUltiSnippets"]
+
+
+" ==============================================================================
+
+" ============================= Commenter ======================================
+Plug 'scrooloose/nerdcommenter'
+let g:NERDCompactSexyComs = 0
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDCustomDelimiters = { 'reason': { 'left': '/*','right': '*/', 'nested': 1 } }
+" See keysVimRc config for <D-/> mappings.
+" If those don't work, try this mapping instead:
+" vmap <D-/> <Plug>NERDCommenterToggle
+" nmap <D-/> <Plug>NERDCommenterToggle
+" ==============================================================================
+
+
+" =============================Javascript-Indent================================
+" I suspect this is doing nothing since JavaScript-Indent overwrites the
+" indentation hooks, but I cannot prove it.
+Plug 'pangloss/vim-javascript'
+" ==============================================================================
+
+" =============================Javascript-Indent================================
+" nemtsov's fork which does *not* echo annoyingly for *every* HTML file you
+" open.
+Plug 'nemtsov/JavaScript-Indent', { 'commit': 'f3e168e70a540678bae4929edf0b21c84c3ed3aa' }
+" ==============================================================================
+
+Plug 'mxw/vim-jsx'
+
+
+" ========================= Simulator Refresh ==================================
+" 'delay 0.5\n tell application "iOS Simulator"\n activate\n tell application "System Events"\n keystroke "r" using command down\n end tell\n end tell'
+function! RefreshTheSimulator()
+  silent :!osascript -e 'delay 0.5' -e 'tell application "iOS Simulator"' -e 'activate' -e 'tell application "System Events"' -e 'keystroke "r" using command down' -e 'end tell' -e 'activate me' -e 'end tell'
+  redraw!
+  if (has('gui_macvim'))
+    silent :!ps -xc|grep -sq MacVim && osascript -e 'tell app "MacVim"' -e 'activate' -e 'end tell'
+  endif
+endfunction
+:command! RefreshSimulator :call RefreshTheSimulator()
+" ==============================================================================
+
+
+" ================================= Less========================================
+" Plug 'groenewege/vim-less'
+" ==============================================================================
+
+
+
+" ======================= Parameter Text Objects ===============================
+" ciP  (change in paramater  - changes the single argument under cursor!
+Plug 'vim-scripts/Parameter-Text-Objects'
+" ==============================================================================
+
+
+" ============================ GUndo ============================================
+" Visualize a tree of your document history
+Plug 'sjl/gundo.vim'
+nnoremap <D-U> :GundoToggle<CR>
+let g:gundo_close_on_revert=1
+" ==============================================================================
+
+" ========================== Undo Quit of a window =============================
+Plug 'AndrewRadev/undoquit.vim'
+map <D-T> <Esc>:Undoquit<CR>
+
+" ==============================================================================
